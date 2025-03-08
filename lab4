@@ -1,0 +1,49 @@
+#includestdio.h
+#includelimits.h
+int main()
+{
+int i,j,k,n,source;
+int w[50][50];
+int visited[20];
+int minWt,totalCost=0,ev=0,sv=0;
+printf(Enter the number of verticesnodes in the graphn);
+scanf(%d,&n);
+printf(Enter the weightcost matrixn);
+for(i=1;i=n;i++)
+{
+for(j=1;j=n;j++)
+{
+scanf(%d,&w[i][j]);
+}
+}
+printf(Enter the source verte4x to startn);
+scanf(%d,&source);
+for(i=1;i=n;i++)
+visited[i]=0;
+visited[source]=1;
+printf(minimum weightcost edges for spanning tree aren);
+for(i=1;i=n;i++)
+{
+minWt=INT_MAX;
+for(j=1;j=n;j++)
+{
+if(visited[j]==1)
+{
+for(k=1;k=n;k++)
+{
+if(visited[k]!=1 && w[j][k]minWt)
+{
+sv=j;
+ev=k;
+minWt=w[j][k];
+}
+}
+}
+}
+totalCost+=minWt;
+visited[ev]=1;
+printf(%d-- %d cost %dn,sv,ev,minWt);
+}
+printf(The total cost of minimum spanning tree is %dn,totalCost);
+return 0;
+}
