@@ -1,73 +1,64 @@
 #include<stdio.h>
 #include<stdlib.h>
-#define MAX 20
-int x[MAX];
-int s[MAX];
-int d,flag=0;
-void Sumofsub(int m,int k,int r);
-void inputArray(int arr[],int n);
-int main()
+#define MAX 50
+int can_place(int c[],int r)
 {
-int n,i,sum=0;
-printf("Enter the number of Elements:");
-scanf("%d",&n);
-printf("Enter the Elements:\n");
-inputArray(s,n);
-printf("Enter the values of d:");
-scanf("%d",&d);
-for(i=1;i<=n;i++)
-{
-sum+=s[i];
-}
-if(sum<d||s[1]>d)
-{
-printf("The given problem instances does not have a solution\n");
+int i;
+for(i=0;i<r;i++)
+if(c[i]==c[r]||(abs(c[i]-c[r])==abs(i-r)))
 return 0;
+return 1;
+}
+void display(int c[],int n)
+{
+int i,j;
+char cb[10][10];
+for(i=0;i<n;i++)
+for(j=0;j<n;j++)
+cb[i][j]='-';
+for(i=0;i<n;i++)
+cb[i][c[i]]='Q';
+for(i=0;i<n;i++)
+{
+for(j=0;j<n;j++)
+printf("%c",cb[i][j]);
+printf("\n");
+}
+}
+void n_queens(int n)
+{
+int r;
+int c[MAX];
+c[0]=-1;
+r=0;
+while(r>=0)
+{
+c[r]++;
+while(c[r]<n && !can_place(c,r))
+c[r]++;
+if(c[r]<n)
+{
+if(r==n-1)
+{
+display(c,n);
+printf("\n\n");
 }
 else
 {
-printf("subsets are:\n");
-Sumofsub(0,1,sum);
+r++;
+c[r]=-1;
 }
-if(flag==0)
+}
+else
+r--;
+}
+}
+void main()
 {
-printf("No subset is possible\n");
+int n;
+printf("\nEnter the no. of queens:");
+scanf("%d",&n);
+n_queens(n);
 }
-return 0;
-}
-void Sumofsub(int m,int k,int r)
-{
-int i;
-x[k]=1;
-if(m+s[k]==d)
-{
-flag=1;
-printf("{");
-for(i=1;i<=k;i++)
-{
-if(x[i]==1)
-{
-printf("%d",s[i]);
-}
-}
-printf("}\n");
-}
-else if((m+s[k]+s[k+1])<=d)
-{
-Sumofsub(m+s[k],k+1,r-s[k]);
-}
-if((m+r-s[k]>=d)&&(m+s[k+1]<=d))
-{
-x[k]=0;
-Sumofsub(m,k+1,r-s[k]);
-}
-}
-void inputArray(int arr[],int n)
-{
-int i;
-for(i=1;i<=n;i++)
-{
-scanf("%d",&arr[i]);
-}
-}
+
 
